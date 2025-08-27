@@ -13,8 +13,8 @@ List initialize(List L) {
 }
 
 List insertPos(List L, int data, int position) {
-    if(position > L.count) {
-        printf("Position must be equal to or less than count.\n");
+    if(position > L.count || position < 0) {
+        printf("Position must be between 0 and the count.\n");
         return L;
     }
 
@@ -39,7 +39,7 @@ List deletePos(List L, int position) {
         return L;
     }
 
-    for(int i = position; i < L.count; i++) {
+    for(int i = position; i < L.count - 1; i++) {
         L.array[i] = L.array[i + 1];
     }
     L.count--;
@@ -47,26 +47,25 @@ List deletePos(List L, int position) {
 }
 
 int locate(List L, int data) {
-    int position = -1, i = 0;
-
-    while((L.array[i] != data) && i < 100) {
+    for(int i = 0; i < L.count; i++) {
         if(L.array[i] == data) {
-            position = i;
-            break;
+            return i;
         }
-        i++;
     }
-
-    return position;
+    return -1;
 }
 
 List insertSorted(List L, int data) {
-    int swapped = 1, temp;
-    while(swapped == 1) {
-        for(int i = 0; i < L.count; i++) {
-            
-        }
+    if(L.count >= MAX) {
+        printf("List is full.\n");
+        return L;
     }
+    int i = 0;
+    while(i < L.count && L.array[i] < data) {
+        i++;
+    }
+    
+    L = insertPos(L, data, i);
     return L;
 }
 
