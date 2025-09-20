@@ -83,12 +83,12 @@ void display(List L) {
 
 int main() {
     List L = initialize(L);
-    char textMenu[5][20] = {"Insert Position", "Delete Position", "Locate", "Insert Sorted", "Display"};
+    char textMenu[6][20] = {"Insert Position", "Delete Position", "Locate", "Insert Sorted", "Display", "Exit"};
     int choice = -1, position, data, temp;
 
     while(choice != 0) {
         printf("\n~~~~~~~~~~~~~~~~~~~~Array List Variation 1~~~~~~~~~~~~~~~~~~~~\n");
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 6; i++) {
             printf("[%d] %s\n", i + 1, textMenu[i]);
         }
         printf("Your choice: ");
@@ -105,13 +105,11 @@ int main() {
                 scanf("%d", &position);
                 L = insertPos(L, data, position);
                 break;
-
             case 2:
                 printf("Position of number to be deleted (0-indexed): ");
                 scanf("%d", &position);
                 L = deletePos(L, position);
                 break;
-
             case 3:
                 printf("Item to look the position for: ");
                 scanf("%d", &data);
@@ -119,12 +117,15 @@ int main() {
                 printf("The item is at position %d", L.array[temp]);
                 break;
             case 4:
-                printf("Array will be sorted and the item will be inserted.\nInsert item to be inserted:");
+                printf("Array will be sorted and the item will be inserted.\nInsert item to be inserted: ");
                 scanf("%d", &data);
                 L = insertSorted(L, data);
             case 5:
                 display(L);
                 break;
+            case 6:
+                printf("Exiting program...");
+                return 0;
             default:
                 printf("Not an available option. \n");
         }
