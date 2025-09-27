@@ -218,7 +218,7 @@ int main() {
     int choice = -1, data, index, temp;
     
     while(choice != 10) {
-         printf("\n~~~~~~~~~~~~~~~~~~~~Linked List Variation 1~~~~~~~~~~~~~~~~~~~~\n");
+         printf("\n~~~~~~~~~~~~~~~~~~~~Linked List Variation 2~~~~~~~~~~~~~~~~~~~~\n");
         for(int i = 0; i < 10; i++) {
             printf("[%d] %s\n", i + 1, textMenu[i]);
         }
