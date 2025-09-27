@@ -89,7 +89,7 @@ int main() {
                 break;
             case 4:
                 printf("Exiting program...");
-                return 1;
+                return 0;
             default:
                 printf("Invalid option.\n");
 
@@ -97,5 +97,5 @@ int main() {
     } while (choice != 0);
     display(set);
 
-    return 1;
+    return 0;
 }
