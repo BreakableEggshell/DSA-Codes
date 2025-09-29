@@ -47,25 +47,34 @@ unsigned char setUnion(unsigned char A, unsigned char B) {
     return (A | B);
 }
 
-unsigned char intersection(unsigned char A, unsigned char B) {
+unsigned char setIntersection(unsigned char A, unsigned char B) {
     return (A & B);
 }
 
-unsigned char difference(unsigned char A, unsigned char B) {
+unsigned char setDifference(unsigned char A, unsigned char B) {
     return (A & ~B);
 }
 
 void display(unsigned char set) {
     for(int i = 7; i >= 0; i--) {
-        printf("%d", (set >> i) & 1);
+        printf("%d", (set >> i) & 1u);
     }
-    printf(" / %u\n", set);
+
+    printf("{ ");
+    for(int i = 7; i >= 0; i--) {
+        if((set >> i) & 1u == 1) {
+            printf("%d ", i);
+        }
+    }
+    printf("}");
 }
 
 int main() {
     Set set[3];
-    initialize(&set);
-
+    for(int i = 0; i < 3; i++) {
+        initialize(&set[i]);
+    }
+    
     char textMenu[TEXT_MENU_CHOICES][50] = {"Insert", "Delete", "Find", "Set union",
                                             "Set Intersection", "Difference", "Display", "Exit"};
     int choice = -1, value, setChoice = -1;
@@ -80,58 +89,78 @@ int main() {
 
         switch(choice) {
             case 1:
-                printf("Value to insert [MAX 8]: ");
+                printf("Value to insert (MAX %d): ", MAX - 1);
                 scanf("%d", &value);
-                printf("Set you want to insert the element to: ");
+                printf("Set you want to insert the element to (1 for A, 2 for B): ");
                 scanf("%d", &setChoice);
 
-                insert(&set[setChoice], value);
+                insert(&set[setChoice - 1], value);
                 break;
             case 2:
-                printf("Value to delete from the set [MAX 8]: ");
+                printf("Value to delete from the set (MAX %d): ", MAX - 1);
                 scanf("%d", &value);
-                printf("Set you want to find the element from: ");
+                printf("Set you want to delete the element from (1 for A, 2 for B): ");
                 scanf("%d", &setChoice);
 
-                delete(&set[setChoice], value);
+                delete(&set[setChoice - 1], value);
                 break;
             case 3:
-                printf("Value to find from the set [MAX 8]: ");
+                printf("Value to find from the set (MAX %d): ", MAX - 1);
                 scanf("%d", &value);
-                printf("Set you want to find the element from: ");
+                printf("Set you want to find the element from (1 for A, 2 for B): ");
                 scanf("%d", &setChoice);
 
-                find(&set[setChoice], value);
+                find(set[setChoice - 1], value);
                 break;
             case 4:
-                printf("Set A: ");
+                printf("-------------- Union Set --------------");
+                printf("\nSet A: ");
                 display(set[0]);
-                printf("Set B: ");
+                printf("\nSet B: ");
                 display(set[1]);
                 
                 set[2] = setUnion(set[0], set[1]);
-                printf("Union of the sets: ");
+                printf("\nUnion: ");
                 display(set[2]);
-
-                return 0;
+                printf("\n");
                 break;
             case 5:
-                //intersection
+                printf("-------------- Intersection Set --------------");
+                printf("\nSet A: ");
+                display(set[0]);
+                printf("\nSet B: ");
+                display(set[1]);
+
+                set[2] = setIntersection(set[0], set[1]);
+                printf("\nIntersection: ");
+                display(set[2]);
+                printf("\n");
                 break;
             case 6:
-                //Difference
+                printf("-------------- Difference Set --------------");
+                printf("\nSet A: ");
+                display(set[0]);
+                printf("\nSet B: ");
+                display(set[1]);
+
+                set[2] = setDifference(set[0], set[1]);
+                printf("\nDifference: ");
+                display(set[2]);
+                printf("\n");
+                break;
             case 7:
-                //Display
+                printf("\nSet A: ");
+                display(set[0]);
+                printf("\nSet B: ");
+                display(set[1]);
                 break;
             case 8:
                 printf("Exiting...\n");
-                return;
+                return 0;
                 break;
             default:
                 printf("Invalid option.\n");
         }
-    } while (choice != 9);
-    display(set);
-
+    } while (choice != 8);
     return 0;
 }
