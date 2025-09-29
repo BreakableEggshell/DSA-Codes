@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #define MAX 8
-#define TEXT_MENU_CHOICES 4
+#define TEXT_MENU_CHOICES 8
 
 typedef unsigned char Set; 
 
@@ -24,8 +24,9 @@ void insert(unsigned char *set, int element) {
         return;
     }
 
-    unsigned char mask = 1 << element;
+    unsigned char mask = (unsigned char)1u << element;
     *set |= mask;
+    printf("Inserted");
 }
 
 void delete(unsigned char *set, int element) {
@@ -34,19 +35,24 @@ void delete(unsigned char *set, int element) {
         return;
     }
 
-    unsigned char mask = 1 << element;
+    unsigned char mask = (unsigned char)1u << element;
     *set &= ~mask;
 }
 
-int find(Set set, int element) {
-    if(isFull(set)) return 0;
-
-    return (set >> element) & 1;
+bool find(Set set, int element) {
+    return (set >> element) & 1u;
 }
 
-Set setUnion(Set A) {
+unsigned char setUnion(unsigned char A, unsigned char B) {
+    return (A | B);
+}
 
-    return A;
+unsigned char intersection(unsigned char A, unsigned char B) {
+    return (A & B);
+}
+
+unsigned char difference(unsigned char A, unsigned char B) {
+    return (A & ~B);
 }
 
 void display(unsigned char set) {
@@ -56,14 +62,13 @@ void display(unsigned char set) {
     printf(" / %u\n", set);
 }
 
-
-
 int main() {
-    Set set;
+    Set set[3];
     initialize(&set);
 
-    char textMenu[TEXT_MENU_CHOICES][50] = {"Insert", "Delete", "Display", "Exit"};
-    int choice = -1, value;
+    char textMenu[TEXT_MENU_CHOICES][50] = {"Insert", "Delete", "Find", "Set union",
+                                            "Set Intersection", "Difference", "Display", "Exit"};
+    int choice = -1, value, setChoice = -1;
 
     do {
         printf("\n--------------- Array Bit Vector V1 ---------------\n");
@@ -75,26 +80,57 @@ int main() {
 
         switch(choice) {
             case 1:
-                printf("Value to insert: ");
+                printf("Value to insert [MAX 8]: ");
                 scanf("%d", &value);
-                insert(&set, value);
+                printf("Set you want to insert the element to: ");
+                scanf("%d", &setChoice);
+
+                insert(&set[setChoice], value);
                 break;
             case 2:
-                printf("Value to delete from the set: ");
+                printf("Value to delete from the set [MAX 8]: ");
                 scanf("%d", &value);
-                delete(&set, value);
+                printf("Set you want to find the element from: ");
+                scanf("%d", &setChoice);
+
+                delete(&set[setChoice], value);
                 break;
             case 3:
-                display(set);
+                printf("Value to find from the set [MAX 8]: ");
+                scanf("%d", &value);
+                printf("Set you want to find the element from: ");
+                scanf("%d", &setChoice);
+
+                find(&set[setChoice], value);
                 break;
             case 4:
-                printf("Exiting program...");
+                printf("Set A: ");
+                display(set[0]);
+                printf("Set B: ");
+                display(set[1]);
+                
+                set[2] = setUnion(set[0], set[1]);
+                printf("Union of the sets: ");
+                display(set[2]);
+
                 return 0;
+                break;
+            case 5:
+                //intersection
+                break;
+            case 6:
+                //Difference
+            case 7:
+                //Display
+                break;
+            case 8:
+                printf("Exiting...\n");
+                return;
+                break;
             default:
                 printf("Invalid option.\n");
-
         }
-    } while (choice != 0);
+    } while (choice != 9);
     display(set);
 
     return 0;
