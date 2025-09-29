@@ -209,7 +209,6 @@ int main() {
             case 8:
                 printf("Exiting...\n");
                 return 0;
-                break;
             default:
                 printf("Invalid option.\n");
         }
